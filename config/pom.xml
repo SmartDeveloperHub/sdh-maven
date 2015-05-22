@@ -3,7 +3,7 @@
 
     #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
       This file is part of the Smart Developer Hub Project:
-        https://smartdeveloperhub.github.io
+        http://www.smartdeveloperhub.org
 
       Center for Open Middleware
         http://www.centeropenmiddleware.com/
@@ -22,7 +22,7 @@
       See the License for the specific language governing permissions and
       limitations under the License.
     #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
-      Artifact    : org.sdh:sdh-config:1.0.0-SNAPSHOT
+      Artifact    : org.smartdeveloperhub:sdh-config:1.0.0-SNAPSHOT
       Bundle      : sdh-config-1.0.0-SNAPSHOT.jar
     #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
 
@@ -36,7 +36,7 @@
 	<!-- =================================================================== -->
 
 	<parent>
-		<groupId>org.sdh</groupId>
+		<groupId>org.smartdeveloperhub</groupId>
 		<artifactId>sdh-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
@@ -57,7 +57,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- License templating -->
 		<license.project.name>Smart Developer Hub</license.project.name>
-		<license.project.url>https://smartdeveloperhub.github.io</license.project.url>
+		<license.project.url>http://www.smartdeveloperhub.org</license.project.url>
 		<license.project.owner>${project.organization.name}</license.project.owner>
 		<license.project.duration>2015</license.project.duration>
 		<license.project.inceptionYear>${project.inceptionYear}</license.project.inceptionYear>

@@ -3,7 +3,7 @@
 
     #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
       This file is part of the Smart Developer Hub Project:
-        http://smartdeveloperhub.github.io/
+        http://www.smartdeveloperhub.org/
 
       Center for Open Middleware
         http://www.centeropenmiddleware.com/
@@ -22,7 +22,7 @@
       See the License for the specific language governing permissions and
       limitations under the License.
     #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
-      Artifact    : org.sdh:sdh-build:1.0.0-SNAPSHOT
+      Artifact    : org.smartdeveloperhub:sdh-build:1.0.0-SNAPSHOT
       Bundle      : sdh-build-1.0.0-SNAPSHOT.pom
     #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
 
@@ -36,7 +36,7 @@
 	<!-- =================================================================== -->
 
 	<parent>
-		<groupId>org.sdh</groupId>
+		<groupId>org.smartdeveloperhub</groupId>
 		<artifactId>sdh-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
@@ -63,7 +63,7 @@
 		<!--  ============================================================   -->
 
 		<config.dir>${project.build.directory}${file.separator}config</config.dir>
-		<config.jacoco.includes>org.ldp4j.*</config.jacoco.includes>
+		<config.jacoco.includes>org.smartdeveloperhub.*</config.jacoco.includes>
 
 		<src.archive>${project.build.directory}${file.separator}${project.artifactId}-${project.version}-sources.jar</src.archive>
 

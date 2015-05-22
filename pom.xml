@@ -35,7 +35,7 @@
 	<!--   MODULE COORDINATES                                                -->
 	<!-- =================================================================== -->
 
-	<groupId>org.sdh</groupId>
+	<groupId>org.smartdeveloperhub</groupId>
 	<artifactId>sdh-parent</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -50,7 +50,7 @@
 
 	<inceptionYear>2015</inceptionYear>
 
-	<url>https://smartdeveloperhub.github.io/</url>
+	<url>http://www.smartdeveloperhub.org/</url>
 
 	<!-- Project license -->
 
@@ -102,7 +102,7 @@
 	<properties>
 		<!-- License templating -->
 		<license.project.name>Smart Developer Hub</license.project.name>
-		<license.project.url>http://smartdeveloperhub.github.io/</license.project.url>
+		<license.project.url>http://www.smartdeveloperhub.org/</license.project.url>
 		<license.project.owner>${project.organization.name}</license.project.owner>
 		<license.project.duration>2015</license.project.duration>
 		<license.project.inceptionYear>${project.inceptionYear}</license.project.inceptionYear>
