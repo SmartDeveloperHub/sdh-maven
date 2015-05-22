@@ -136,7 +136,7 @@
 		<dependencies>
 			<!-- Internal dependencies -->
 			<dependency>
-				<groupId>org.sdh</groupId>
+				<groupId>org.smartdeveloperhub</groupId>
 				<artifactId>sdh-config</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -433,7 +433,7 @@
 						<configuration>
 							<artifactItems>
 								<artifactItem>
-									<groupId>org.sdh</groupId>
+									<groupId>org.smartdeveloperhub</groupId>
 									<artifactId>sdh-config</artifactId>
 									<version>${project.version}</version>
 									<type>jar</type>
