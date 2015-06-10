@@ -130,6 +130,8 @@
 
 		<!-- PLUGIN VERSIONS -->
 		<maven.enforcer.plugin.version>1.4</maven.enforcer.plugin.version>
+		<maven.gpg.plugin.version>1.6</maven.gpg.plugin.version>
+		<nexus.staging.maven.plugin.version>1.6.3</nexus.staging.maven.plugin.version>
 	</properties>
 
 	<build>
@@ -168,20 +170,88 @@
 		<module>build</module>
 	</modules>
 
+	<profiles>
+		<profile>
+			<id>gpg</id>
+			<activation>
+				<property>
+					<name>gpg.secretKeyring</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>${maven.gpg.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>travis-ossrh</id>
+			<activation>
+				<property>
+					<name>ossrh</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>${nexus.staging.maven.plugin.version}</version>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>ossrh</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>false</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 	<!-- =================================================================== -->
 	<!--   ENVIRONMENT SETTINGS                                              -->
 	<!-- =================================================================== -->
 
 	<prerequisites>
-		<maven>3.0.4</maven>
+		<maven>3.2.3</maven>
 	</prerequisites>
 
-  <issueManagement>
-    <system>github</system>
-    <url>https://github.com/SmartDeveloperHub/sdh-maven/issues</url>
-  </issueManagement>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/SmartDeveloperHub/sdh-maven/issues</url>
+	</issueManagement>
 
-  <scm>
+	<ciManagement>
+		<system>Travis-CI</system>
+		<url>https://travis-ci.org/SmartDeveloperHub/sdh-maven</url>
+	</ciManagement>
+
+	<distributionManagement>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<scm>
 		<connection>scm:git:git://git@github.com:SmartDeveloperHub/sdh-maven.git</connection>
 		<developerConnection>scm:git:ssh://github.com/SmartDeveloperHub/sdh-maven.git</developerConnection>
 		<url>git://github.com/SmartDeveloperHub/sdh-maven.git</url>
