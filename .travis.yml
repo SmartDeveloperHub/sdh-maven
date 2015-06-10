@@ -6,7 +6,7 @@ before_install:
   -out local.secring.gpg -d
 - openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD -in config/src/main/resources/ci/pubring.gpg.enc
   -out local.pubring.gpg -d
-- git fetch --unshallow
+- git fetch
 - git checkout ${TRAVIS_BRANCH}
 script: if [ ${TRAVIS_PULL_REQUEST} = 'false' ]; then mvn deploy -Dossrh -Dcodebase.directory=`pwd`
   --settings config/src/main/resources/ci/settings.xml; else mvn clean verify -Dcodebase.directory=`pwd`
