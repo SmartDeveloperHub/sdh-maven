@@ -10,9 +10,12 @@ before_install:
 - git checkout ${TRAVIS_BRANCH}
 script:
 - if [ ${TRAVIS_PULL_REQUEST} = 'false' ]; then mvn deploy -Dossrh -Dcodebase.directory=`pwd`
+  -Dcoverage.reports.dir=`pwd`/target/all
   --settings config/src/main/resources/ci/settings.xml; else mvn verify -Dcodebase.directory=`pwd`
   --settings config/src/main/resources/ci/settings.xml; fi
+after_success:
 - if [ ${TRAVIS_PULL_REQUEST} = 'false' ]; then mvn sonar:sonar -Dcodebase.directory=`pwd`
+  -Dcoverage.reports.dir=`pwd`/target/all
   --settings config/src/main/resources/ci/settings.xml; else mvn clean; fi
 env:
   global:
