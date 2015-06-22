@@ -55,7 +55,7 @@
 				<sonar.jdbc.url>jdbc:mysql://${env.SONARQUBE_JDBC_HOST}:${env.SONARQUBE_JDBC_PORT}/${env.SONARQUBE_JDBC_SCHEMA}?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true&amp;useConfigs=maxPerformance</sonar.jdbc.url>
 				<sonar.jdbc.username>${env.SONARQUBE_JDBC_USERNAME}</sonar.jdbc.username>
 				<sonar.jdbc.password>${env.SONARQUBE_JDBC_PASSWORD}</sonar.jdbc.password>
-				<sonar.host.url>http://analysis.smartdeveloperhub.org/sonar/</sonar.host.url>
+				<sonar.host.url>http://www.smartdeveloperhub.org/sonar/</sonar.host.url>
 			</properties>
 		</profile>
 	</profiles>
