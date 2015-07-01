@@ -900,7 +900,7 @@
 					</execution>
 					<execution>
 						<id>default-report</id>
-						<phase>site</phase>
+						<phase>verify</phase>
 						<goals>
 							<goal>report</goal>
 						</goals>
@@ -910,7 +910,7 @@
 					</execution>
 					<execution>
 						<id>default-report-integration</id>
-						<phase>site</phase>
+						<phase>verify</phase>
 						<goals>
 							<goal>report-integration</goal>
 						</goals>
