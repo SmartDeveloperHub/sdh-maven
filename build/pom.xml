@@ -989,7 +989,8 @@
 						</goals>
 						<configuration>
 							<includes>
-								<include>**/*ITest.class</include>
+								<include>**/*IT.java</include>
+								<include>**/*ITest.java</include>
 							</includes>
 							<failIfNoTests>false</failIfNoTests>
 						</configuration>
