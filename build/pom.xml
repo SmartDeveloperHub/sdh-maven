@@ -76,6 +76,9 @@
 		<!-- Reporting -->
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+		<surefire.arg.line></surefire.arg.line>
+		<failsafe.arg.line></failsafe.arg.line>
+
 		<!--  ============================================================   -->
 		<!--   Dependency version properties                                 -->
 		<!--  ============================================================   -->
@@ -942,7 +945,7 @@
 								<exclude>**/*IT.java</exclude>
 								<exclude>**/*ITest.java</exclude>
 							</excludes>
-							<argLine>${jacoco.agent.ut.arg}</argLine>
+							<argLine>${surefire.arg.line} ${jacoco.agent.ut.arg}</argLine>
 							<properties>
 								<property>
 									<name>listener</name>
@@ -972,7 +975,7 @@
 							<reportFormat>plain</reportFormat>
 							<failIfNoSpecifiedTests>false</failIfNoSpecifiedTests>
 							<failIfNoTests>false</failIfNoTests>
-							<argLine>${jacoco.agent.it.arg}</argLine>
+							<argLine>${failsafe.arg.line} ${jacoco.agent.it.arg}</argLine>
 							<properties>
 								<property>
 									<name>listener</name>
