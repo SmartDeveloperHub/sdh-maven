@@ -91,8 +91,8 @@
 		<junit.version>4.12</junit.version>
 		<guava.version>18.0</guava.version>
 		<javassist.version>3.15.0-GA</javassist.version>
-		<jaxb.api.version>2.1</jaxb.api.version>
-		<jaxb.impl.version>2.1.13</jaxb.impl.version>
+		<jaxb.api.version>2.2.11</jaxb.api.version>
+		<jaxb.impl.version>2.2.11</jaxb.impl.version>
 		<mysql.version>5.1.13</mysql.version> <!-- Check version -->
 		<commons.io.version>2.4</commons.io.version>
 		<commons.dbcp2.version>2.1</commons.dbcp2.version>
@@ -238,6 +238,11 @@
 			<dependency>
 				<groupId>com.sun.xml.bind</groupId>
 				<artifactId>jaxb-impl</artifactId>
+				<version>${jaxb.impl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.xml.bind</groupId>
+				<artifactId>jaxb-core</artifactId>
 				<version>${jaxb.impl.version}</version>
 			</dependency>
 			<dependency>
