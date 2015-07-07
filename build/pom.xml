@@ -454,6 +454,13 @@
 				<configuration>
 					<encoding>${source.encoding}</encoding>
 				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.shared</groupId>
+						<artifactId>maven-filtering</artifactId>
+						<version>1.3</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 
 			<!-- Enforce Jave SE 7 compliance, and UTF-8 sources -->
