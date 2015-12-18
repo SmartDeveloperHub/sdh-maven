@@ -37,7 +37,7 @@
 
 	<groupId>org.smartdeveloperhub</groupId>
 	<artifactId>sdh-parent</artifactId>
-	<version>0.1.0</version>
+	<version>0.2.0</version>
 	<packaging>pom</packaging>
 
 	<!-- =================================================================== -->
@@ -100,28 +100,6 @@
 	<!-- =================================================================== -->
 
 	<properties>
-		<!-- License templating -->
-		<license.project.name>Smart Developer Hub</license.project.name>
-		<license.project.url>http://www.smartdeveloperhub.org/</license.project.url>
-		<license.project.owner>${project.organization.name}</license.project.owner>
-		<license.project.duration>2015</license.project.duration>
-		<license.project.inceptionYear>${project.inceptionYear}</license.project.inceptionYear>
-		<license.organization.name>${project.organization.name}</license.organization.name>
-		<license.organization.url>${project.organization.url}</license.organization.url>
-		<license.artifact>${project.groupId}:${project.artifactId}:${project.version}</license.artifact>
-		<license.bundle>${project.build.finalName}.${project.packaging}</license.bundle>
-
-		<coverage.reports.dir>${project.build.directory}${file.separator}coverage-reports</coverage.reports.dir>
-
-		<jacoco.ut.file>jacoco-ut.exec</jacoco.ut.file>
-		<jacoco.it.file>jacoco-it.exec</jacoco.it.file>
-
-		<sonar.language>java</sonar.language>
-		<sonar.junit.reportsPath>${project.build.directory}${file.separator}surefire-reports</sonar.junit.reportsPath>
-		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-		<sonar.jacoco.reportPath>${coverage.reports.dir}${file.separator}${jacoco.ut.file}</sonar.jacoco.reportPath>
-		<sonar.jacoco.itReportPath>${coverage.reports.dir}${file.separator}${jacoco.it.file}</sonar.jacoco.itReportPath>
-
 		<!--  ============================================================   -->
 		<!--   Plugin version properties                                     -->
 		<!--  ============================================================   -->
@@ -156,7 +134,7 @@
 		<maven.surefire.plugin.version>2.18.1</maven.surefire.plugin.version>
 		<maven.war.plugin.version>2.6</maven.war.plugin.version>
 		<nexus.staging.maven.plugin.version>1.6.3</nexus.staging.maven.plugin.version>
-		<sonar.maven.plugin.version>2.5</sonar.maven.plugin.version>
+		<sonar.maven.plugin.version>2.6</sonar.maven.plugin.version>
 		<taglist.maven.plugin.version>2.4</taglist.maven.plugin.version>
 		<truezip.maven.plugin.version>1.2</truezip.maven.plugin.version>
 		<jgitflow.maven.plugin.version>1.0-m5.1</jgitflow.maven.plugin.version>
@@ -307,6 +285,13 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-assembly-plugin</artifactId>
 					<version>${maven.assembly.plugin.version}</version>
+				</plugin>
+
+				<!-- sonar.host.url not working with version 2.7 -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>${sonar.maven.plugin.version}</version>
 				</plugin>
 
 				<!-- ===================== -->
