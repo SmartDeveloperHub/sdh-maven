@@ -107,8 +107,7 @@
 		<build.helper.maven.plugin.version>1.10</build.helper.maven.plugin.version>
 		<findbugs.maven.plugin.version>3.0.3</findbugs.maven.plugin.version>
 		<jacoco.maven.plugin.version>0.7.5.201505241946</jacoco.maven.plugin.version>
-		<gmaven.plugin.version>1.0</gmaven.plugin.version>
-		<org.codehaus.gmaven.gmaven.plugin.version>2.0</org.codehaus.gmaven.gmaven.plugin.version>
+		<groovy.maven.plugin.version>2.0</groovy.maven.plugin.version>
 		<mycila.license.maven.plugin.version>2.11</mycila.license.maven.plugin.version>
 		<codehaus.license.maven.plugin.version>1.8</codehaus.license.maven.plugin.version>
 		<maven.assembly.plugin.version>2.6</maven.assembly.plugin.version>
@@ -246,15 +245,9 @@
 				</plugin>
 
 				<plugin>
-					<groupId>org.codehaus.groovy.maven</groupId>
-					<artifactId>gmaven-plugin</artifactId>
-					<version>${gmaven.plugin.version}</version>
-				</plugin>
-
-				<plugin>
 					<groupId>org.codehaus.gmaven</groupId>
-					<artifactId>gmaven-plugin</artifactId>
-					<version>${org.codehaus.gmaven.gmaven.plugin.version}</version>
+					<artifactId>groovy-maven-plugin</artifactId>
+					<version>${groovy.maven.plugin.version}</version>
 				</plugin>
 
 				<plugin>
