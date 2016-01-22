@@ -8,7 +8,7 @@
       Center for Open Middleware
         http://www.centeropenmiddleware.com/
     #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
-      Copyright (C) 2015 Center for Open Middleware.
+      Copyright (C) 2015-2016 Center for Open Middleware.
     #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
       Licensed under the Apache License, Version 2.0 (the "License");
       you may not use this file except in compliance with the License.
@@ -66,7 +66,7 @@
 		<license.project.name>Smart Developer Hub</license.project.name>
 		<license.project.url>http://www.smartdeveloperhub.org/</license.project.url>
 		<license.project.owner>${project.organization.name}</license.project.owner>
-		<license.project.duration>2015</license.project.duration>
+		<license.project.duration>${project.inceptionYear}-2016</license.project.duration>
 		<license.project.inceptionYear>${project.inceptionYear}</license.project.inceptionYear>
 		<license.organization.name>${project.organization.name}</license.organization.name>
 		<license.organization.url>${project.organization.url}</license.organization.url>
