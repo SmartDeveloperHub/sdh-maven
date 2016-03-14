@@ -63,11 +63,11 @@ function checkSonarQubeServer() {
     status=$(head -n 1 data.txt | awk '{print $2}')
     if [ "$status" != "200" ];
     then
-      echo "Skipped SonarQube analysis (${TRAVIS_BRANCH}). SonarQube Server is not available ($status)"
+      echo "SonarQube Server is not available (response status code: $status)"
       error=1
     fi
   else
-    echo "Skipped SonarQube analysis (${TRAVIS_BRANCH}). Could not connect to SonarQube Server: "
+    echo "Could not connect to SonarQube Server: "
     cat log.txt
     error=2
   fi
@@ -88,6 +88,8 @@ function analyzeBranch() {
     else
       echo "Skipped SonarQube analysis (${TRAVIS_BRANCH}): Porcelain"
     fi
+  else
+    echo "Skipped SonarQube analysis (${TRAVIS_BRANCH})"
   fi
 }
 function skipBranchAnalysis() {
