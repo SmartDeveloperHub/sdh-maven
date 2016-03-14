@@ -1,13 +1,17 @@
 #!/bin/bash
 
 function logCheckResults() {
-  if [ "${DEBUG}" = "verbose" ];
-  then
-    echo "Trace:"
-    cat log.txt
-    echo "Response:"
-    cat data.txt
-  fi
+  case "${DEBUG}" in
+    trace | verbose )
+      echo "-> Trace:"
+      cat log.txt
+      echo "-> Response:"
+      cat data.txt
+      ;;
+    *               )
+      :
+      ;;
+  esac
 }
 
 function checkWithCurl() {
@@ -92,6 +96,7 @@ function analyzeBranch() {
     echo "Skipped SonarQube analysis (${TRAVIS_BRANCH})"
   fi
 }
+
 function skipBranchAnalysis() {
   echo "Skipped SonarQube analysis (${TRAVIS_BRANCH}): Non Q.A. branch"
 }
@@ -121,6 +126,11 @@ function runSonarQubeAnalysis() {
   fi
 }
 
+if [ "${DEBUG}" = "trace" ];
+then
+  set -x
+fi
+
 server=http://www.smartdeveloperhub.org/sonar/
 
 case "${CI}" in
@@ -129,5 +139,7 @@ case "${CI}" in
   porcelain ) runSonarQubeAnalysis "$server" porcelain ;;
   *         ) runSonarQubeAnalysis "$server" "$1" ;;
 esac
+
+set +x
 
 return 0
