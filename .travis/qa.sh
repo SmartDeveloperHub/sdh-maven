@@ -26,33 +26,32 @@ function skipPullRequestAnalysis() {
   echo "Skipped SonarQube analysis (${TRAVIS_BRANCH}): Pull request"
 }
 
-if [ "${CI}" = "skip" ];
-then
+function skipBuild() {
   echo "Skipping build..."
-  exit $?
-fi
+}
 
-if [ "${CI}" = "noqa" ];
-then
+function skipSonarQubeAnalysis() {
   echo "Skipping SonarQube analysis..."
-  exit $?
-fi
+}
 
-mode=$1
-if [ "$mode" != "porcelain" ];
-then
-  mode=${CI}
-fi
+function runSonarQubeAnalysis() {
+  if [ "${TRAVIS_PULL_REQUEST}" = "false" ];
+  then
+    case "${TRAVIS_BRANCH}" in
+      master | develop ) analyzeBranch "$1" "$2";;
+      feature\/*       ) analyzeBranch "$2" "$2";;
+      *                ) skipBranchAnalysis ;;
+    esac
+  else
+    skipPullRequestAnalysis
+  fi
+}
 
 server=http://www.smartdeveloperhub.org/sonar/
 
-if [ "${TRAVIS_PULL_REQUEST}" = "false" ];
-then
-  case "${TRAVIS_BRANCH}" in
-    master | develop ) analyzeBranch "$server" "$mode";;
-    feature\/*       ) analyzeBranch "$server" "$mode";;
-    *                ) skipBranchAnalysis ;;
-  esac
-else
-  skipPullRequestAnalysis
-fi
+case "${CI}" in
+  skip      ) skipBuild ;;
+  noqa      ) skipSonarQubeAnalysis ;;
+  porcelain ) runSonarQubeAnalysis "$server" porcelain ;;
+  *         ) runSonarQubeAnalysis "$server" "$1" ;;
+esac

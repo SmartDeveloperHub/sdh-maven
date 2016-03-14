@@ -49,31 +49,36 @@ function prepareBuild() {
   fi
 }
 
-if [ "${CI}" = "skip" ];
-then
-  echo "Skipping build..."
-  exit $?
-fi
+function runUtility() {
+  mode=$1
+  if [ "$mode" != "porcelain" ];
+  then
+    mode=${CI}
+  fi
 
-mode=$1
-if [ "$mode" != "porcelain" ];
-then
-  mode=${CI}
-fi
-
-check=$1
-shift
-if [ "$check" = "porcelain" ];
-then
-  action=$1
+  check=$1
   shift
-else
-  action=$check
-fi
+  if [ "$check" = "porcelain" ];
+  then
+    action=$1
+    shift
+  else
+    action=$check
+  fi
 
-case "$action" in
-  backup-maven-repo ) backupMavenRepo "$mode" "$@";;
-  restore-maven-repo) restoreMavenRepo "$mode" "$@";;
-  prepare-build-bom ) prepareBuild "$mode" "$@";;
-  *                 ) fail "$action";;
+  case "$action" in
+    backup-maven-repo ) backupMavenRepo "$mode" "$@";;
+    restore-maven-repo) restoreMavenRepo "$mode" "$@";;
+    prepare-build-bom ) prepareBuild "$mode" "$@";;
+    *                 ) fail "$action";;
+  esac
+}
+
+function skipBuild() {
+  echo "Skipping build..."
+}
+
+case "${CI}" in
+  skip ) skipBuild ;;
+  *    ) runUtility "$@" ;;
 esac

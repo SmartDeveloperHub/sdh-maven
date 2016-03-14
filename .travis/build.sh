@@ -21,25 +21,26 @@ function install() {
   fi
 }
 
-if [ "${CI}" = "skip" ];
-then
-  echo "Skipping build..."
-  exit $?
-fi
-
-mode=$1
-if [ "$mode" != "porcelain" ];
-then
-  mode=${CI}
-fi
-
-if [ "${TRAVIS_PULL_REQUEST}" = "false" ];
-then
-  case "${TRAVIS_BRANCH}" in
-    master | develop ) deploy "$mode";;
-    feature\/*       ) install "$mode";;
-    *                ) install "$mode";;
+function runBuild() {
+  mode=$1
+  if [ "${TRAVIS_PULL_REQUEST}" = "false" ];
+  then
+    case "${TRAVIS_BRANCH}" in
+      master | develop ) deploy "$mode";;
+      feature\/*       ) install "$mode";;
+      *                ) install "$mode";;
   esac
-else
-  install "$mode"
-fi
+  else
+    install "$mode"
+  fi
+}
+
+function skipBuild() {
+  echo "Skipping build..."
+}
+
+case "${CI}" in
+  skip      ) skipBuild ;;
+  porcelain ) runBuild porcelain ;;
+  *         ) runBuild "$1" ;;
+esac
