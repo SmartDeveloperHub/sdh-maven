@@ -1,4 +1,5 @@
 #!/bin/bash
+# Abort script on first failure
 set -e
 
 function backupMavenRepo() {
@@ -22,14 +23,14 @@ function restoreMavenRepo() {
 
 function fail() {
   echo "ERROR: Unknown command '${1}'."
-  exit 1
+  return 1
 }
 
 function prepareBuild() {
   if [ "$#" != "2" ];
   then
     echo "ERROR: No encryption password specified."
-    exit 2
+    return 2
   fi
 
   if [ "$1" != "porcelain" ];
@@ -77,6 +78,11 @@ function runUtility() {
 function skipBuild() {
   echo "Skipping build..."
 }
+
+if [ "${DEBUG}" = "trace" ];
+then
+  set -x
+fi
 
 case "${CI}" in
   skip ) skipBuild ;;

@@ -1,4 +1,5 @@
 #!/bin/bash
+# Abort script on first failure
 set -e
 
 function deploy() {
@@ -38,6 +39,11 @@ function runBuild() {
 function skipBuild() {
   echo "Skipping build..."
 }
+
+if [ "${DEBUG}" = "trace" ];
+then
+  set -x
+fi
 
 case "${CI}" in
   skip      ) skipBuild ;;
