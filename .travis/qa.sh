@@ -1,23 +1,41 @@
 #!/bin/bash
 
-function analyzeBranch() {
-  if [ "$2" != "porcelain" ];
+function checkSonarQubeServer() {
+  error=1
+  echo "Checking SonarQube Server..."
+  curl --head --silent --verbose --connect-timeout 5 "$1" > data.txt 2> log.txt
+  if [ "$?" = "0" ];
   then
-    echo "Checking SonarQube Server..."
-    curl --head "$1" > /dev/null 2>&1
-    if [ "$?" = "0" ];
+    status=$(head -n 1 data.txt | awk '{print $2}')
+    if [ "$status" = "200" ];
+    then
+      error=0
+    else
+      echo "Skipped SonarQube analysis (${TRAVIS_BRANCH}). SonarQube Server is not available ($status)"
+    fi
+  else
+    echo "Skipped SonarQube analysis (${TRAVIS_BRANCH}). Could not connect to SonarQube Server: "
+    cat log.txt
+  fi
+  rm data.txt
+  rm log.txt
+  return $error
+}
+
+function analyzeBranch() {
+  checkSonarQubeServer "$1"
+  if [ "$1" = "0" ];
+  then
+    if [ "$2" != "porcelain" ];
     then
       echo "Executing SonarQube analysis (${TRAVIS_BRANCH})..."
       # If SSL network failures happen, execute the analysis with -Djavax.net.debug=all
-      mvn sonar:sonar -B -Dsonar.branch=$TRAVIS_BRANCH -Dcoverage.reports.dir=$(pwd)/target/all --settings config/src/main/resources/ci/settings.xml
+      mvn sonar:sonar -B -Dsonar.branch="$TRAVIS_BRANCH" -Dcoverage.reports.dir="$(pwd)/target/all" --settings config/src/main/resources/ci/settings.xml
     else
-      echo "Skipped SonarQube analysis (${TRAVIS_BRANCH}): Cannot connect to SonarQube Server ($1)"
+      echo "Skipped SonarQube analysis (${TRAVIS_BRANCH}): Porcelain"
     fi
-  else
-    echo "Skipped SonarQube analysis (${TRAVIS_BRANCH}): Porcelain"
   fi
 }
-
 function skipBranchAnalysis() {
   echo "Skipped SonarQube analysis (${TRAVIS_BRANCH}): Non Q.A. branch"
 }
@@ -39,7 +57,7 @@ function runSonarQubeAnalysis() {
   then
     case "${TRAVIS_BRANCH}" in
       master | develop ) analyzeBranch "$1" "$2";;
-      feature\/*       ) analyzeBranch "$2" "$2";;
+      feature\/*       ) analyzeBranch "$1" "$2";;
       *                ) skipBranchAnalysis ;;
     esac
   else
