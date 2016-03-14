@@ -129,3 +129,5 @@ case "${CI}" in
   porcelain ) runSonarQubeAnalysis "$server" porcelain ;;
   *         ) runSonarQubeAnalysis "$server" "$1" ;;
 esac
+
+return 0
