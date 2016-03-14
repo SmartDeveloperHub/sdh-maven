@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 function analyzeBranch() {
   if [ "$2" != "porcelain" ];
@@ -27,7 +26,24 @@ function skipPullRequestAnalysis() {
   echo "Skipped SonarQube analysis (${TRAVIS_BRANCH}): Pull request"
 }
 
+if [ "${CI}" = "skip" ];
+then
+  echo "Skipping build..."
+  exit $?
+fi
+
+if [ "${CI}" = "noqa" ];
+then
+  echo "Skipping SonarQube analysis..."
+  exit $?
+fi
+
 mode=$1
+if [ "$mode" != "porcelain" ];
+then
+  mode=${CI}
+fi
+
 server=http://www.smartdeveloperhub.org/sonar/
 
 if [ "${TRAVIS_PULL_REQUEST}" = "false" ];

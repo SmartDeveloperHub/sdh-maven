@@ -21,7 +21,17 @@ function install() {
   fi
 }
 
+if [ "${CI}" = "skip" ];
+then
+  echo "Skipping build..."
+  exit $?
+fi
+
 mode=$1
+if [ "$mode" != "porcelain" ];
+then
+  mode=${CI}
+fi
 
 if [ "${TRAVIS_PULL_REQUEST}" = "false" ];
 then

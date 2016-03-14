@@ -49,15 +49,26 @@ function prepareBuild() {
   fi
 }
 
+if [ "${CI}" = "skip" ];
+then
+  echo "Skipping build..."
+  exit $?
+fi
+
 mode=$1
+if [ "$mode" != "porcelain" ];
+then
+  mode=${CI}
+fi
+
+check=$1
 shift
-if [ "$mode" = "porcelain" ];
+if [ "$check" = "porcelain" ];
 then
   action=$1
   shift
 else
-  action=$mode
-  mode=execute
+  action=$check
 fi
 
 case "$action" in
