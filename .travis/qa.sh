@@ -1,4 +1,6 @@
 #!/bin/bash
+# Avoid aborting script on failure
+set +e
 
 function logCheckResults() {
   case "${DEBUG}" in
