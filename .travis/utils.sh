@@ -17,7 +17,7 @@ function restoreMavenRepo() {
   then
     mv /tmp/cache-trick/smartdeveloperhub "$HOME/.m2/repository/org/"
   else
-	  echo "Skipped Maven Repo restoration"
+    echo "Skipped Maven Repo restoration"
   fi
 }
 
@@ -26,7 +26,42 @@ function fail() {
   return 1
 }
 
+function beginSensibleBlock() {
+  set +x
+  if [ "${DEBUG}" = "trace" ];
+  then
+    set -v
+  fi
+}
+
+function endSensibleBlock() {
+  set +v
+  if [ "${DEBUG}" = "trace" ];
+  then
+    set -x
+  fi
+}
+
+function unshallowGitRepository() {
+  if [[ -a .git/shallow ]];
+  then
+    echo "- Unshallowing Git repository..."
+    set +e
+    git fetch --unshallow --verbose;
+    set -e
+    error=$?
+    if [[ $error -ne 0 ]];
+    then
+      echo "Unshallowing failed with $error status code"
+      git --version
+      return $error
+    fi
+  fi
+}
+
 function prepareBuild() {
+  endSensitiveBlock
+
   if [ "$#" != "2" ];
   then
     echo "ERROR: No encryption password specified."
@@ -35,22 +70,25 @@ function prepareBuild() {
 
   if [ "$1" != "porcelain" ];
   then
+    beginSensitiveBlock
+
     echo "Preparing Build's bill-of-materials..."
     echo "- Decrypting private key..."
     openssl aes-256-cbc -pass pass:"$2" -in config/src/main/resources/ci/secring.gpg.enc -out local.secring.gpg -d
     echo "- Decrypting public key..."
     openssl aes-256-cbc -pass pass:"$2" -in config/src/main/resources/ci/pubring.gpg.enc -out local.pubring.gpg -d
-    if [[ -a .git/shallow ]];
-    then
-      echo "- Unshallowing Git repository..."
-      git fetch --unshallow
-    fi
+
+    endSensitiveBlock
+
+    unshallowGitRepository
   else
     echo "Skipped preparation of the Build's bill-of-materials"
   fi
 }
 
 function runUtility() {
+  beginSensibleBlock
+
   mode=$1
   if [ "$mode" != "porcelain" ];
   then
@@ -68,21 +106,27 @@ function runUtility() {
   fi
 
   case "$action" in
-    backup-maven-repo ) backupMavenRepo "$mode" "$@";;
-    restore-maven-repo) restoreMavenRepo "$mode" "$@";;
-    prepare-build-bom ) prepareBuild "$mode" "$@";;
-    *                 ) fail "$action";;
+    backup-maven-repo )
+      endSensibleBlock
+      backupMavenRepo "$mode" "$@"
+      ;;
+    restore-maven-repo)
+      endSensibleBlock
+      restoreMavenRepo "$mode" "$@"
+      ;;
+    prepare-build-bom )
+      prepareBuild "$mode" "$@"
+      ;;
+    *                 )
+      endSensibleBlock
+      fail "$action"
+      ;;
   esac
 }
 
 function skipBuild() {
   echo "Skipping build..."
 }
-
-if [ "${DEBUG}" = "trace" ];
-then
-  set -x
-fi
 
 case "${CI}" in
   skip ) skipBuild ;;
