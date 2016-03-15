@@ -60,7 +60,7 @@ function unshallowGitRepository() {
 }
 
 function prepareBuild() {
-  endSensitiveBlock
+  endSensibleBlock
 
   if [ "$#" != "2" ];
   then
@@ -70,7 +70,7 @@ function prepareBuild() {
 
   if [ "$1" != "porcelain" ];
   then
-    beginSensitiveBlock
+    beginSensibleBlock
 
     echo "Preparing Build's bill-of-materials..."
     echo "- Decrypting private key..."
@@ -78,7 +78,7 @@ function prepareBuild() {
     echo "- Decrypting public key..."
     openssl aes-256-cbc -pass pass:"$2" -in config/src/main/resources/ci/pubring.gpg.enc -out local.pubring.gpg -d
 
-    endSensitiveBlock
+    endSensibleBlock
 
     unshallowGitRepository
   else
