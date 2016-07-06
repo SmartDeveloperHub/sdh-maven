@@ -1,42 +1,32 @@
 sudo: false
+language: java
+jdk:
+- oraclejdk7
+
+notifications:
+  slack: sdhub:ti8lMh7ERZIqLzWF4dHkcgwt
+
 cache:
   directories:
   - $HOME/.m2/repository
   - $HOME/.sonar
-notifications:
-  slack: sdhub:ti8lMh7ERZIqLzWF4dHkcgwt
-language: java
-jdk:
-- oraclejdk7
+
+before_cache:
+  - source ./.travis/utils.sh backup-maven-repo
+
 before_install:
-- openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD -in config/src/main/resources/ci/secring.gpg.enc
-  -out local.secring.gpg -d
-- openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD -in config/src/main/resources/ci/pubring.gpg.enc
-  -out local.pubring.gpg -d
-- if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+  - source ./.travis/utils.sh prepare-build-bom $ENCRYPTION_PASSWORD
+
 install:
-- /bin/true
+  - "/bin/true"
+
 script:
-- if [ "${TRAVIS_PULL_REQUEST}" = "false" ];
-  then
-    if [ "${TRAVIS_BRANCH}" = "master" ] || [ "${TRAVIS_BRANCH}" = "develop" ];
-    then mvn clean deploy -B -Dcodebase.directory=`pwd` -Dcoverage.reports.dir=`pwd`/target/all --settings config/src/main/resources/ci/settings.xml;
-    else mvn clean install -B -Dcoverage.reports.dir=`pwd`/target/all --settings config/src/main/resources/ci/settings.xml;
-    fi
-  else
-    echo mvn clean install -B -Dcoverage.reports.dir=`pwd`/target/all --settings config/src/main/resources/ci/settings.xml;
-  fi
-- if [ "${TRAVIS_PULL_REQUEST}" = "false" ];
-  then
-    case "${TRAVIS_BRANCH}" in
-      master)   mvn sonar:sonar -B -Dsonar.branch=$TRAVIS_BRANCH -Dcoverage.reports.dir=`pwd`/target/all --settings config/src/main/resources/ci/settings.xml;;
-      develop)  mvn sonar:sonar -B -Dsonar.branch=$TRAVIS_BRANCH -Dcoverage.reports.dir=`pwd`/target/all --settings config/src/main/resources/ci/settings.xml;;
-      feature*) mvn sonar:sonar -B -Dsonar.branch=$TRAVIS_BRANCH -Dcoverage.reports.dir=`pwd`/target/all --settings config/src/main/resources/ci/settings.xml;;
-      *)        echo "Skip SonarQube analysis (${TRAVIS_BRANCH})";;
-    esac
-  fi
-- mkdir /tmp/cache-trick
-- mv $HOME/.m2/repository/org/smartdeveloperhub /tmp/cache-trick/
+  - source ./.travis/build.sh
+
+after_success:
+  - source ./.travis/utils.sh restore-maven-repo
+  - source ./.travis/qa.sh
+
 env:
   global:
   - secure: JslDK1Own9RevKDwXNvXBpp/Fza4+9rATZLKIFiS8WjnugZaA8dMrn87AmbH5Yg+Aq3AV5aAYQKo4MoEHJEVU6wgp5p7INaVGPpC5p8CgjTFYJu0TC0oIXzVvEQy49uTDV8iM0icQcOn6MpFEQq6qlL9JW9Lt9Eu+Am5UKfKWPWQhe63Qf2LoLRfKWZ4IoekWGlMFF+qsRxmXkNdbniIkmzu0PVj9vTg7I7igupDPC3W9r9+YgVu0PoatBgx8Jhe8iSlnW6tLrb/GKI77wQolRylm77pD3F2DFeNag8SWCYoy6tgIPUpTCZ6sjGb/Ydbus5MRBjvnRIZ6Zu4HzbvixApK5E6pjFDAoE2xuAbBuVe2aSJ2d2bMbmpI444Y56Cdzf5a0D2zz7TdTXWyv96qXQB/GHX8Ccp67nziiaoSTGRVkdVratJHTclxUFVjNSrgtVmCjrzTz1XP0Q4gB2M7G7p0eczU2riCEPembAGC4NRhCDYJ9FsvE0WDtb5JBLZhGu82WFyrMs51FoMNv0Mu6pg8TVjvrj+q418jY2uDTlLh8xYuRmNkNscwE5L+WQLVJ63D3fTgMOwuUeaGnq38oQWTB/sokG2ISimNufSfttkjyBNFBPr/ismMyJVlB4t6kqAZRy4idwblT2SjyVhSphp8QipmxwopJjX0qDr0tI=
